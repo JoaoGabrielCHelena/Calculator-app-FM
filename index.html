@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Frontend Mentor | Calculator app</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <script src="js/calc.js" defer></script>
+  <script src="js/themes.js" defer></script>
+
+  <!-- import font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <main>
+    <div data-hasSecondInput class="wrapper">
+      <div class="top-row">
+        <h1>calc</h1>
+        <div>
+          <label for="theme-switch">THEME</label>
+          <div class="theme-switch-wrapper">
+            <div id="options">
+              <button data-theme="1">1</button>
+              <button data-theme="2">2</button>
+              <button data-theme="3">3</button>
+            </div>
+            <input type="range" min="1" max="3" value="2" step="1" list="options" name="themes" id="theme-switch">
+          </div>
+        </div>
+      </div>
+      <div data-display id="display">0</div>
+      <div id="input-section">
+        <button data-digitKey="7">7</button>
+        <button data-digitKey="8">8</button>
+        <button data-digitKey="9">9</button>
+        <button data-del="Delete">DEL</button>
+        <button data-digitKey="4">4</button>
+        <button data-digitKey="5">5</button>
+        <button data-digitKey="6">6</button>
+        <button data-operation="+">+</button>
+        <button data-digitKey="1">1</button>
+        <button data-digitKey="2">2</button>
+        <button data-digitKey="3">3</button>
+        <button data-operation="-">-</button>
+        <button data-digitKey=".">.</button>
+        <button data-digitKey="0">0</button>
+        <button data-operation="/">/</button>
+        <button data-operation="*">x</button>
+        <button data-reset>RESET</button>
+        <button data-equals="Enter">=</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+    Coded by <a href="https://github.com/Koala5617">koala5617</a>.
+  </footer>
+</body>
+
+</html>
