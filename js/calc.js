@@ -1,3 +1,6 @@
+// https://bobbyhadz.com/blog/javascript-split-string-substrings-n-characters#:~:text=To%20split%20a%20string%20every,a%20length%20of%20N%20characters.
+
+
 const digits = document.querySelectorAll('[data-digitKey]')
 const operations = document.querySelectorAll('[data-operation]')
 const del = document.querySelector('[data-del]')
@@ -5,7 +8,7 @@ const resetKey = document.querySelector('[data-reset]')
 const equal = document.querySelector('[data-equals]')
 const displayBox = document.querySelector('[data-display]')
 const hasSecondInput = document.querySelector('[data-hasSecondInput]')
-// Constants for keyboard input v
+// Constants for keyboard input
 // const numbers = ['1','2','3','4','5','6','7','8','9','0']
 // const operands = ['/', '*', '-', '+']
 // const equalKeyboard = ['=', 'Enter']
@@ -70,14 +73,6 @@ del.addEventListener('click', function() {deleteDigit()})
 // functions
 
 function printNumber(input) {
-  // doesnt allow more than one dot
-  if (displayBox.textContent.includes('.') && input == '.') {
-    return
-  }
-  // allows for '0.' if dot is typed
-  if (displayBox.textContent == '0' && input == '.') {
-    return displayBox.textContent = `0${input}`
-  }
   // if doesnt have second input, display is not -, and has an operand, it creates a second input
   if (operand != "" && hasSecondInput.getAttribute('data-hasSecondInput') == 'false') {
     y = input
@@ -89,6 +84,15 @@ function printNumber(input) {
     hasSecondInput.setAttribute('data-hasSecondInput', 'true')
     return displayBox.textContent = `${y}`
   }
+  // doesnt allow more than one dot
+  if (displayBox.textContent.includes('.') && input == '.') {
+    return
+  }
+  // allows for '0.' if dot is typed
+  if (displayBox.textContent == '0' && input == '.') {
+    return displayBox.textContent = `0.`
+  }
+  
   // if display is 0, it replaces the number
   if (displayBox.textContent == "0") {
     return displayBox.textContent = `${input}`  
