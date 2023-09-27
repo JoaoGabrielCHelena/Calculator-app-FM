@@ -1,6 +1,3 @@
-// https://bobbyhadz.com/blog/javascript-split-string-substrings-n-characters#:~:text=To%20split%20a%20string%20every,a%20length%20of%20N%20characters.
-
-
 const digits = document.querySelectorAll('[data-digitKey]')
 const operations = document.querySelectorAll('[data-operation]')
 const del = document.querySelector('[data-del]')
@@ -8,6 +5,7 @@ const resetKey = document.querySelector('[data-reset]')
 const equal = document.querySelector('[data-equals]')
 const displayBox = document.querySelector('[data-display]')
 const hasSecondInput = document.querySelector('[data-hasSecondInput]')
+var displayValue = ""
 // Constants for keyboard input
 // const numbers = ['1','2','3','4','5','6','7','8','9','0']
 // const operands = ['/', '*', '-', '+']
@@ -82,41 +80,49 @@ function printNumber(input) {
     }
     // data to be used in equalise()
     hasSecondInput.setAttribute('data-hasSecondInput', 'true')
-    return displayBox.textContent = `${y}`
+    displayValue = `${y}`
+    updateDisplay()
+    return 
   }
   // doesnt allow more than one dot
-  if (displayBox.textContent.includes('.') && input == '.') {
+  if (displayValue.includes('.') && input == '.') {
     return
   }
   // allows for '0.' if dot is typed
-  if (displayBox.textContent == '0' && input == '.') {
-    return displayBox.textContent = `0.`
+  if (displayValue == '0' && input == '.') {
+    displayValue = `0.`
+    updateDisplay()
+    return 
   }
   
   // if display is 0, it replaces the number
-  if (displayBox.textContent == "0") {
-    return displayBox.textContent = `${input}`  
+  if (displayValue == "0") {
+    displayValue = `${input}`
+    updateDisplay()
+    return   
   }
   // if none pass, it adds the input to the end of display
-  displayBox.textContent = `${displayBox.textContent}${input}` 
+  displayValue = `${displayValue}${input}` 
+  updateDisplay()
 }
 
 function operationSelected(input) {
   if (hasSecondInput.getAttribute('data-hasSecondInput') == 'true') {
     equalise()
   } 
-  if (displayBox.textContent.slice(displayBox.textContent.length - 1, displayBox.textContent.length) == '.') {
-    displayBox.textContent = displayBox.textContent.slice(0, -1)
+  if (displayValue.slice(displayValue.length - 1, displayValue.length) == '.') {
+    displayValue = displayValue.slice(0, -1)
   }
   operand = input
   hasSecondInput.setAttribute('data-hasSecondInput', 'false')
-  x = displayBox.textContent
+  x = displayValue
+  updateDisplay()
 }
 
 function equalise() {
   switch (hasSecondInput.getAttribute('data-hasSecondInput')) {
     case 'true':
-      y = displayBox.textContent
+      y = displayValue
       hasSecondInput.setAttribute('data-hasSecondInput', 'false')
       break
     case 'false':
@@ -125,32 +131,50 @@ function equalise() {
     break
     default:
       // here happens if data-hasSecondInput == 'keep'
-      x = displayBox.textContent
+      x = displayValue
     break
   }
   if (operand == "" && hasSecondInput.getAttribute('data-hasSecondInput') == "false") {
     return
   }
-  displayBox.textContent = eval(`${x}${operand}${y}`)
+  displayValue = (eval(`${x}${operand}${y}`)).toString()
   hasSecondInput.setAttribute('data-hasSecondInput', 'keep')
+  updateDisplay()
 }
 
 function reset() {
   x = 0;
   y = 0;
+  displayValue = '0'
   operand = '';
   displayBox.textContent = '0'
   hasSecondInput.setAttribute('data-hasSecondInput', 'false')
 }
 
 function deleteDigit() {
-  displayBox.textContent = displayBox.textContent.slice(0, -1)
+  displayValue = displayValue.slice(0, -1)
   // if the last digit is a dot, delete it
-  if (displayBox.textContent.slice(displayBox.textContent.length - 1, displayBox.textContent.length) == '.') {
-    displayBox.textContent = displayBox.textContent.slice(0, -1)
+  if (displayValue.slice(displayValue.length - 1, displayValue.length) == '.') {
+    displayValue = displayValue.slice(0, -1)
   }
   // if empty or just a negative sign
-  if (displayBox.textContent == '' || displayBox.textContent == '-') {
-    displayBox.textContent = '0'
+  if (displayValue == '' || displayValue == '-') {
+    displayValue = '0'
+  }
+  updateDisplay()
+}
+
+function updateDisplay() {
+  // exists to allow for the final digit to be a dot
+  let finalDigit = ''
+  if (displayValue.slice(displayValue.length - 1, displayValue.length) == '.') {
+    finalDigit = '.'
+  }
+
+  displayBox.textContent = `${Number(displayValue).toLocaleString('en-US')}${finalDigit}`
+
+  // this is done to avoid issues with floating point
+  if (displayValue.slice(displayValue.length - 1, displayValue.length) != '.') {
+    displayValue = displayBox.textContent.replace(/[,]/g, '')
   }
 }
